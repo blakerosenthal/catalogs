@@ -1,0 +1,19 @@
+description: NOAA Climate Data
+metadata:
+  source: https://www.ncei.noaa.gov/metadata/geoportal/rest/metadata/item/gov.noaa.ncdc:C00861/html
+name: NOAA Climate Data
+sources:
+  daily_summaries:
+    args:
+      path: '{{ CATALOG_DIR }}/noaa_daily_summaries.yaml'
+    description: Global Historical Climate Network includes daily land surface observations
+      from around the world. The GHCN-Daily was developed to meet the needs of climate
+      analysis and monitoring studies that require data at a sub-monthly time resolution
+      (e.g., assessments of the frequency of heavy rainfall, heat wave duration, etc.).
+      The dataset includes observations from World Meteorological Organization, Cooperative,
+      and CoCoRaHS networks. If observed, the station dataset includes max and minimum
+      temperatures, total precipitation, snowfall, and depth of snow on ground. Some
+      U.S. station data are typically delayed only 24 hours.
+    driver: intake.catalog.local.YAMLFileCatalog
+    name: NOAA Climate Data Daily Summaries
+    parameters: {}

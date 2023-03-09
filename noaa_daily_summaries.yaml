@@ -1,0 +1,44 @@
+description: Global Historical Climate Network includes daily land surface observations
+  from around the world. The GHCN-Daily was developed to meet the needs of climate
+  analysis and monitoring studies that require data at a sub-monthly time resolution
+  (e.g., assessments of the frequency of heavy rainfall, heat wave duration, etc.).
+  The dataset includes observations from World Meteorological Organization, Cooperative,
+  and CoCoRaHS networks. If observed, the station dataset includes max and minimum
+  temperatures, total precipitation, snowfall, and depth of snow on ground. Some U.S.
+  station data are typically delayed only 24 hours.
+metadata: {}
+name: NOAA Climate Data Daily Summaries
+sources:
+  by_year:
+    args:
+      csv_kwargs:
+        blocksize: null
+        dtype:
+          data_value: Int64
+          date: object
+          element: object
+          id: object
+          m_flag: object
+          obs_time: Int64
+          q_flag: object
+          s_flag: object
+        names:
+        - id
+        - date
+        - element
+        - data_value
+        - m_flag
+        - q_flag
+        - s_flag
+        - obs_time
+      urlpath: filecache::https://www.ncei.noaa.gov/pub/data/ghcn/daily/by_year/{{
+        year }}.csv.gz
+    description: ''
+    driver: csv
+    name: Daily summaries by year
+    parameters:
+      year:
+        name: year
+        description: data collection year
+        type: str
+        default: '2023'
