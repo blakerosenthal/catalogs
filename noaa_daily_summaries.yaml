@@ -6,12 +6,10 @@ description: Global Historical Climate Network includes daily land surface obser
   and CoCoRaHS networks. If observed, the station dataset includes max and minimum
   temperatures, total precipitation, snowfall, and depth of snow on ground. Some U.S.
   station data are typically delayed only 24 hours.
-metadata: {}
-name: NOAA Climate Data Daily Summaries
-sources:
-  by_year:
-    args:
-      csv_kwargs:
+metadata:
+  parameters:
+    daily_summary_kwargs:
+      default:
         blocksize: null
         dtype:
           data_value: Int64
@@ -31,14 +29,79 @@ sources:
         - q_flag
         - s_flag
         - obs_time
-      urlpath: filecache::https://www.ncei.noaa.gov/pub/data/ghcn/daily/by_year/{{
-        year }}.csv.gz
-    description: ''
+      description: Header info and other kwargs applying to all daily summary files
+      type: dict
+name: NOAA Climate Data Daily Summaries
+sources:
+  by_station:
+    args:
+      csv_kwargs: '{{ daily_summary_kwargs }}'
+      urlpath: filecache::https://www.ncei.noaa.gov/pub/data/ghcn/daily/by_station/{{
+        station }}.csv.gz
+    description: NOAA daily summaries .csv.gz files
     driver: csv
+    metadata:
+      source: https://www.ncei.noaa.gov/pub/data/ghcn/daily/by_station/
     name: Daily summaries by year
     parameters:
+      csv_kwargs:
+        name: csv_kwargs
+        description: ''
+        type: dict
+      station:
+        name: station
+        description: data collection station
+        type: str
+        default: ACW00011604
+  by_station_readme:
+    args:
+      text_mode: true
+      urlpath: filecache::https://www.ncei.noaa.gov/pub/data/ghcn/daily/by_station/readme-by_station.txt
+    description: README for NOAA daily summaries files
+    driver: textfiles
+    name: Daily summaries by station
+    parameters: {}
+  by_year:
+    args:
+      csv_kwargs: '{{ daily_summary_kwargs }}'
+      urlpath: filecache::https://www.ncei.noaa.gov/pub/data/ghcn/daily/by_year/{{
+        year }}.csv.gz
+    description: NOAA daily summaries .csv.gz files
+    driver: csv
+    metadata:
+      source: https://www.ncei.noaa.gov/pub/data/ghcn/daily/by_year/
+    name: Daily summaries by year
+    parameters:
+      csv_kwargs:
+        name: csv_kwargs
+        description: ''
+        type: dict
       year:
         name: year
         description: data collection year
         type: str
         default: '2023'
+  by_year_readme:
+    args:
+      urlpath: filecache::https://www.ncei.noaa.gov/pub/data/ghcn/daily/by_year/readme-by_year.txt
+    description: README for NOAA daily summaries files
+    driver: textfiles
+    name: Daily summaries by year
+    parameters: {}
+  stations:
+    args:
+      csv_kwargs:
+        names:
+        - ID
+        - latitude
+        - longitude
+        sep: \s+
+        usecols:
+        - 0
+        - 1
+        - 2
+      urlpath: filecache::https://www.ncei.noaa.gov/pub/data/ghcn/daily/ghcnd-stations.txt
+    description: Table of stations included in daily summaries files
+    driver: csv
+    name: Daily summaries stations
+    parameters: {}
